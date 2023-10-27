@@ -21,7 +21,7 @@ def access_google_sheet(google_sheet_url: str) -> pd.DataFrame:
     client = gspread.authorize(creds)
 
     sheet = client.open_by_url(google_sheet_url)
-    party_candidates_sheet = sheet.get_worksheet(0)
+    party_candidates_sheet = sheet.get_worksheet(1)
 
     party_candidates_dict = party_candidates_sheet.get_all_records()
     return pd.DataFrame(party_candidates_dict)
@@ -34,4 +34,4 @@ Supports lower the BA requirements as well.
 """
 if __name__=="__main__":
     #in here we'll call the access google sheet url and then the appropriate logic function
-    pass
+    print(access_google_sheet(google_sheet_url=google_sheets_urls['hluwill']))
