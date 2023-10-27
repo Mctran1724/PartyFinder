@@ -1,4 +1,5 @@
 #some general classes and functionality for maplestory
+import pandas as pd
 
 from MS_jobs import gms_jobs_df
 party_supports = ("Bishop", 'Dawn Warrior', 'Blaze Wizard', 'Chase', 'Mechanic', 'Shade', 'Kanna', 'Battle Mage')
@@ -61,7 +62,20 @@ def arcane_fd_multiplier(af_ratio: float) -> float:
     return multiplier
 
 
-    
+#symbol_force refers to the arc and sac of the boss map
+def adjust_ba(df: pd.DataFrame, boss_level: int, symbol_force: int = 0, symbol_type: str = "") -> pd.DataFrame: 
+    #first filter people who are already matchmade
+    df['level_diff'] = df['Level'] - boss_level
+    try:
+        if symbol_type:
+            df['symbol_ratio'] = df[symbol_type]/symbol_force #have to multiply this factor in later
+    except Exception as e:
+        print("No arcane power or sac listed")
+    df['fd_multiplier'] = df['level_diff'].apply(level_fd_multiplier)
+    df['adjusted_BA'] = df['BA'] * df['fd_multiplier']
+    return df
+
+.
 
 if __name__=="__main__":
     seconddeal = PartyBosser("SecondDeal", 'Hero', 275, "black_mage", 145)
