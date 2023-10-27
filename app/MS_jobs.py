@@ -10,7 +10,7 @@ scope = [
     'https://www.googleapis.com/auth/drive'
 ]
 
-creds_file = "C:/Users/Micha/Desktop/Projects/personal/PartyFinder/PartyFinder/app/MS_sheets_credentials.json"
+creds_file = "../app/MS_sheets_credentials.json"
 creds = ServiceAccountCredentials.from_json_keyfile_name(creds_file, scope)
 
 client = gspread.authorize(creds)
@@ -22,4 +22,4 @@ gms_jobs_dict = gms_jobs_sheet.get_all_records()
 gms_jobs_df = pd.DataFrame(gms_jobs_dict)
 
 if __name__=='__main__':
-    print(df)
+    print(gms_jobs_df)

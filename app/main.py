@@ -15,7 +15,7 @@ def access_google_sheet(google_sheet_url: str) -> pd.DataFrame:
         'https://www.googleapis.com/auth/drive'
     ]
 
-    creds_file = "C:/Users/Micha/Desktop/Projects/personal/PartyFinder/PartyFinder/app/MS_sheets_credentials.json"
+    creds_file = "../app/MS_sheets_credentials.json"
     creds = ServiceAccountCredentials.from_json_keyfile_name(creds_file, scope)
 
     client = gspread.authorize(creds)
