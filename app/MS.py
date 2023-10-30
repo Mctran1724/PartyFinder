@@ -120,7 +120,7 @@ def match_players(supports: pd.DataFrame, dps: pd.DataFrame, minimum_average_BA:
         party_curr.append(dpser)
         party_damage += dpser_ba
         dps.drop(index=dps.index[0], axis=0, inplace=True)
-        print(f"Total Party Damage {party_damage}. Required ba {required_ba}")
+        print(f"Total Party Damage {party_damage} out of {required_ba}")
         if party_damage > required_ba and len(party_curr) <= 6:
             print(f"Party set: {party_curr}")
             tentative_dps_pts.append(party_curr)

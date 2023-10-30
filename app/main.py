@@ -1,4 +1,5 @@
 import gspread
+import gspread_dataframe
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 import os
@@ -28,7 +29,7 @@ def access_google_sheet(google_sheet_url: str, sheet_num: int = 0) -> pd.DataFra
     return pd.DataFrame(party_candidates_dict)
 
 
-def update_matched_players(google_sheet_url: str, party_column: pd.Series, sheet_num: int = 0) -> None:
+def update_bossing_sheet(google_sheet_url: str, df: pd.DataFrame, sheet_num: int = 0) -> None:
     scope = [
         'https://www.googleapis.com/auth/spreadsheets',
         'https://www.googleapis.com/auth/drive'
@@ -42,9 +43,7 @@ def update_matched_players(google_sheet_url: str, party_column: pd.Series, sheet
 
     sheet = client.open_by_url(google_sheet_url)
     worksheet = sheet.get_worksheet(sheet_num)
-    starting_cell = worksheet.find("Party")
-    print(f"updating column {starting_cell}")
-    worksheet.update(starting_cell, party_column)
+    gspread_dataframe.set_with_dataframe(worksheet, df)
 
     return
 
