@@ -38,15 +38,23 @@ def match_players(supports: pd.DataFrame, dps: pd.DataFrame):
         
     #now add the pure dps parties
     #working on this part
+    required_ba = all_dps_BA*6
     tentative_dps_pts = []
     while not dps.empty:
-        required_ba = all_dps_BA*6
         dpser = dps.loc[dps.index[0], 'Character Name']
         dpser_ba = dps.loc[dps.index[0], 'adjusted_BA']
         party_curr.append(dpser)
         party_damage += dpser_ba
         dps.drop(index=dps.index[0], axis=0, inplace=True)
+        if party_damage > required_ba:
+            tentative_dps_pts.append(party_curr)
+            party_curr = []
+    
+    parties += tentative_dps_pts
 
+    print(parties)
+
+    return parties
 
             
 

@@ -75,7 +75,7 @@ def adjust_ba(df: pd.DataFrame, boss_level: int, symbol_force: int = 0, symbol_t
     df['adjusted_BA'] = df['BA'] * df['fd_multiplier']
     return df
 
-.
+
 
 if __name__=="__main__":
     seconddeal = PartyBosser("SecondDeal", 'Hero', 275, "black_mage", 145)
