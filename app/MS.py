@@ -78,8 +78,8 @@ def adjust_ba(df: pd.DataFrame, boss_level: int, symbol_force: int = 0, symbol_t
 
 def filter_players(df: pd.DataFrame, minimum_average_BA: float) -> pd.DataFrame: 
     df_candidates = df.loc[(df['Party']=='')&(df['adjusted_BA'] >= minimum_average_BA)]
-    supports = df_candidates[df_candidates['Class Type']=='Support'].sort_values('adjusted_BA', axis=0, ascending=True) 
-    dps = df_candidates[df_candidates['Class Type']!='Support'].sort_values('adjusted_BA', axis=0, ascending=True)
+    supports = df_candidates[df_candidates['Class Type']=='Support'].sort_values('adjusted_BA', axis=0, ascending=False) 
+    dps = df_candidates[df_candidates['Class Type']!='Support'].sort_values('adjusted_BA', axis=0, ascending=False)
     return supports, dps
 
 
@@ -133,6 +133,8 @@ def match_players(supports: pd.DataFrame, dps: pd.DataFrame, minimum_average_BA:
 
     return parties
 
+#currently need to figure out the case where going from the weakest first doesn't work. 
+#Like if you need the strongest ones to join up for the clear.
 
 if __name__=="__main__":
     seconddeal = PartyBosser("SecondDeal", 'Hero', 275, "black_mage", 145)
