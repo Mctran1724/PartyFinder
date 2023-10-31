@@ -47,6 +47,36 @@ def update_bossing_sheet(google_sheet_url: str, df: pd.DataFrame, sheet_num: int
 
     return
 
+
+def update_entry(google_sheet_url: str, df: pd.DataFrame, sheet_num: int = 0) -> pd.DataFrame:
+    scope = [
+        'https://www.googleapis.com/auth/spreadsheets',
+        'https://www.googleapis.com/auth/drive'
+    ]
+
+    creds_file = "../app/MS_sheets_credentials.json"
+    creds_file = 'app\MS_sheets_credentials.json' #not sure what's up with this
+    creds = ServiceAccountCredentials.from_json_keyfile_name(creds_file, scope)
+
+    client = gspread.authorize(creds)
+
+    sheet = client.open_by_url(google_sheet_url)
+    worksheet = sheet.get_worksheet(sheet_num)
+    party_candidates_dict = worksheet.get_all_records()
+    df = pd.DataFrame(party_candidates_dict)
+    df['Timestamp'] = pd.to_datetime(df['Timestamp'])
+    #have to convert timestamp to a datetime object first
+    result = df.loc[df.groupby('Character Name')['Timestamp'].idxmin()]
+    
+    gspread_dataframe.set_with_dataframe(worksheet, result)
+
+    return result
+
+
+    
+
+
+
 """
 Have to think of an algorithm to group up members. Perhaps a new python file that has the functionality. Each boss has its own function for 
 Want to create as many groups as possible that meet the BA requirements
