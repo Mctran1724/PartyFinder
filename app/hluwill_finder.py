@@ -8,8 +8,10 @@ from main import *
 minimum_average_BA = 1.3 #trillion. This number is for parties with supports
 all_dps_BA = 1.5 #trillion. This number is for parties without supports
 
+sheet_number = 0
+
 hluwill_spreadsheet = google_sheets_urls['hluwill']
-df = access_google_sheet(google_sheet_url=hluwill_spreadsheet, sheet_num=1)
+df = access_google_sheet(google_sheet_url=hluwill_spreadsheet, sheet_num=sheet_number)
 print(df)
 adjusted = MS.adjust_ba(df, 250)
 supports, dps = MS.filter_players(adjusted, minimum_average_BA)
@@ -31,7 +33,7 @@ finally:
         df['Party'] = party_array
         
 updated_table = df.drop(['level_diff', 'fd_multiplier', 'adjusted_BA'], axis=1)
-update_bossing_sheet(hluwill_spreadsheet, updated_table, 1)
+update_bossing_sheet(hluwill_spreadsheet, updated_table, sheet_number)
 
 
 if __name__=='__main__':
