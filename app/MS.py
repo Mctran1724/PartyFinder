@@ -77,7 +77,7 @@ def adjust_ba(df: pd.DataFrame, boss_level: int, symbol_force: int = 0, symbol_t
 
 
 def filter_players(df: pd.DataFrame, minimum_average_BA: float) -> pd.DataFrame: 
-    df_candidates = df.loc[(df['Party']=='')&(df['adjusted_BA'] >= minimum_average_BA)]
+    df_candidates = df.loc[(df['Party']=='')&(df['adjusted_BA'] >= minimum_average_BA)] #find unmatched and qualified players
     supports = df_candidates[df_candidates['Class Type']=='Support'].sort_values('adjusted_BA', axis=0, ascending=False) 
     dps = df_candidates[df_candidates['Class Type']!='Support'].sort_values('adjusted_BA', axis=0, ascending=False)
     return supports, dps
@@ -120,16 +120,14 @@ def match_players(supports: pd.DataFrame, dps: pd.DataFrame, minimum_average_BA:
         party_curr.append(dpser)
         party_damage += dpser_ba
         dps.drop(index=dps.index[0], axis=0, inplace=True)
-        print(f"Total Party Damage {party_damage} out of {required_ba}")
+        #print(f"Total Party Damage {party_damage} out of {required_ba}")
         if party_damage > required_ba and len(party_curr) <= 6:
-            print(f"Party set: {party_curr}")
+            #print(f"Party set: {party_curr}")
             tentative_dps_pts.append(party_curr)
             party_curr = []
             party_damage = 0
     
     parties += tentative_dps_pts
-
-    print(parties)
 
     return parties
 

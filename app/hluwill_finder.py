@@ -15,27 +15,27 @@ df = access_google_sheet(google_sheet_url=hluwill_spreadsheet, sheet_num=sheet_n
 print(df)
 adjusted = MS.adjust_ba(df, 250)
 supports, dps = MS.filter_players(adjusted, minimum_average_BA)
-result = MS.match_players(supports, dps, minimum_average_BA, all_dps_BA)
+result = MS.match_players(supports, dps, minimum_average_BA, all_dps_BA) #returns a list of ilsts of players
+
+#Naming the parties:
+existing_parties = pd.to_numeric(df['Party']).fillna(0)
+offset = existing_parties.max() + 1 if existing_parties.max() else 1
+
+new_parties = {
+    i+offset: party for i, party in enumerate(result)
+}
 
 try:
-    all_players = []
-    for pt in result:
-        for player in pt:
-            all_players.append(player)
+    for party, members in new_parties.items():
+        for member in members:
+            df.loc[df['Character Name'] == member, 'Party'] = party
 except Exception as e:
     print(e)
-    all_players = []
 finally:
-    if all_players:
-        matched_mask = (df['Character Name'].isin(all_players))|(df['Party']!="")
-        party_array =  np.where(matched_mask, 'True', '')
-        updated_party_column = ['Party'] + party_array.tolist()
-        df['Party'] = party_array
-        
+    print(df)        
 updated_table = df.drop(['level_diff', 'fd_multiplier', 'adjusted_BA'], axis=1)
-update_bossing_sheet(hluwill_spreadsheet, updated_table, sheet_number)
+update_bossing_sheet(hluwill_spreadsheet, updated_table, )
 
 
 if __name__=='__main__':
-    for party in result:
-        print(adjusted.loc[adjusted["Character Name"].isin(party), "adjusted_BA"].sum())
+    print(result, new_parties)
