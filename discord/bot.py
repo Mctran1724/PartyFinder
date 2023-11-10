@@ -1,40 +1,55 @@
+import os
 import discord
+from discord.ext import commands
 import responses
 
+with open("discord/token.txt", 'r') as f:
+    token = f.readlines()[0]
 
 async def send_message(message, user_message: str, is_private: bool) -> str: 
     try:
-        response = responses.get_responses(user_message)
+        response = responses.get_response(user_message)
         await message.author.send(response) if is_private else await message.channel.send(response)
     except Exception as e:
         print(e)
     
 
 def run_discord_bot():
-    TOKEN = 'MTE3MTU5NDMwODYyNTg5NTQyNQ.GhA7mQ.hLW2H2fv-x2WgtoSjzOlWvBe7isY2TE5T1kINA'
+    TOKEN = token
     intents = discord.Intents.default()
     intents.message_content = True
-    client = discord.Client(intents=intents)
+    intents.members = True
+    client = commands.Bot(command_prefix='$', intents=intents)
 
     @client.event
     async def on_ready():
-        print(f'{client.user} is now running!')
+        print(f'{client.user} is now running')
+        synced = await client.tree.sync()
+        print(f"{len(synced)} slash commands synced")
 
-    @client.event
-    async def on_message(message):
-        if message.author == client.user: #if the bot itself is the message author
-            return 
-        else:
-            username = str(message.author)
-            user_message = str(message.content)
-            channel = str(message.channel)
 
-            print(f"{username} said: {user_message} in {channel}")
+    matchmaking_desc = """
+                    Request matchmaking service for a given boss.
+                """
+    party_bosses = ['hluwill', 'ctene', 'bm', 'nseren', 'hseren']
+    @client.tree.command(name='matchmake', description=matchmaking_desc)
+    async def matchmake(interaction: discord.Interaction, name: str):
         
-        if user_message[0] == '$':
-            user_message = user_message[1:]
-            await send_message(message, user_message, is_private=True)
-        else:
-            await send_message(message, user_message, is_private=False)
-        
+        print("calling matchmake function")
+
+        content = "Matchmaking"
+        await interaction.response.send_message(content=content, ephemeral=True)
+
+    update_desc = """
+                Request update to BA
+            """
+    @client.tree.command(name='update', description=update_desc)
+    async def update(interaction: discord.Interaction):
+        print("calling update function")
+        content = "Updating"
+        await interaction.response.send_message(content=content)
+
     client.run(TOKEN)
+   
+if __name__=="__main__":
+    run_discord_bot()
