@@ -16,8 +16,7 @@ def access_google_sheet(google_sheet_url: str, sheet_num: int = 0) -> pd.DataFra
         'https://www.googleapis.com/auth/drive'
     ]
 
-    creds_file = "../app/MS_sheets_credentials.json"
-    creds_file = 'app\MS_sheets_credentials.json' #not sure what's up with this
+    creds_file = 'discord/app/MS_sheets_credentials.json' #not sure what's up with this
     creds = ServiceAccountCredentials.from_json_keyfile_name(creds_file, scope)
 
     client = gspread.authorize(creds)
@@ -35,8 +34,7 @@ def update_bossing_sheet(google_sheet_url: str, df: pd.DataFrame, sheet_num: int
         'https://www.googleapis.com/auth/drive'
     ]
 
-    creds_file = "../app/MS_sheets_credentials.json"
-    creds_file = 'app\MS_sheets_credentials.json' #not sure what's up with this
+    creds_file = 'discord/app/MS_sheets_credentials.json' #not sure what's up with this
     creds = ServiceAccountCredentials.from_json_keyfile_name(creds_file, scope)
 
     client = gspread.authorize(creds)
@@ -55,7 +53,7 @@ def update_entry(google_sheet_url: str, df: pd.DataFrame, sheet_num: int = 0) ->
     ]
 
     creds_file = "../app/MS_sheets_credentials.json"
-    creds_file = 'app\MS_sheets_credentials.json' #not sure what's up with this
+    creds_file = 'discord/app/MS_sheets_credentials.json' #not sure what's up with this
     creds = ServiceAccountCredentials.from_json_keyfile_name(creds_file, scope)
 
     client = gspread.authorize(creds)
@@ -73,7 +71,6 @@ def update_entry(google_sheet_url: str, df: pd.DataFrame, sheet_num: int = 0) ->
     return result
 
 
-    
 
 
 

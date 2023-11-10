@@ -1,7 +1,7 @@
 #some general classes and functionality for maplestory
 import pandas as pd
-
 from MS_jobs import gms_jobs_df
+
 party_supports = ("Bishop", 'Dawn Warrior', 'Blaze Wizard', 'Chase', 'Mechanic', 'Shade', 'Kanna', 'Battle Mage')
 def categorize_job(job: str) -> str:
     if job in party_supports:

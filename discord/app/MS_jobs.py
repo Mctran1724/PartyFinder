@@ -11,7 +11,8 @@ scope = [
 ]
 
 creds_file = "../app/MS_sheets_credentials.json"
-creds_file = 'app\MS_sheets_credentials.json' #not sure what's up with this
+
+creds_file = "discord/app/MS_sheets_credentials.json" #not sure what's up with this
 creds = ServiceAccountCredentials.from_json_keyfile_name(creds_file, scope)
 
 client = gspread.authorize(creds)

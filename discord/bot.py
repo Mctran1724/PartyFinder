@@ -3,16 +3,12 @@ import discord
 from discord.ext import commands
 import responses
 
+supported_bosses = ['hluwill', 'ctene', 'bm']
+
+
 with open("discord/token.txt", 'r') as f:
     token = f.readlines()[0]
 
-async def send_message(message, user_message: str, is_private: bool) -> str: 
-    try:
-        response = responses.get_response(user_message)
-        await message.author.send(response) if is_private else await message.channel.send(response)
-    except Exception as e:
-        print(e)
-    
 
 def run_discord_bot():
     TOKEN = token
@@ -31,13 +27,14 @@ def run_discord_bot():
     matchmaking_desc = """
                     Request matchmaking service for a given boss.
                 """
-    party_bosses = ['hluwill', 'ctene', 'bm', 'nseren', 'hseren']
+    boss_choices = [discord.app_commands.Choice(name=x.title(), value=x.lower()) for x in supported_bosses]
     @client.tree.command(name='matchmake', description=matchmaking_desc)
-    async def matchmake(interaction: discord.Interaction, name: str):
+    @discord.app_commands.choices(boss=boss_choices)
+    async def matchmake(interaction: discord.Interaction, name: str, boss: discord.app_commands.Choice[str]):
         
         print("calling matchmake function")
 
-        content = "Matchmaking"
+        content = f"Attempting matchmaking {name} for {boss.value} party."
         await interaction.response.send_message(content=content, ephemeral=True)
 
     update_desc = """
