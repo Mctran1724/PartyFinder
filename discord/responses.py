@@ -68,7 +68,7 @@ def update(character_name: str, desired_boss: str) -> None:
             """ 
     except Exception as e:
         print(e)
-        response = "No previous BA found"
+        response = f"No previous BA found. Enter a BA via {entry_form_url}"
     finally:
         return response
 

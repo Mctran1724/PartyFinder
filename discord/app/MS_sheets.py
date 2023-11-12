@@ -7,12 +7,16 @@ import os
 #defining the links we want to have access to
 
 google_sheets_urls = {
-    'hluwill': "https://docs.google.com/spreadsheets/d/1EhA3MwucYMGwowS4dThUimfR3sZ6OCIWclw6UmreC1s/edit?resourcekey#gid=1104640664"
+    'hluwill': "https://docs.google.com/spreadsheets/d/1EhA3MwucYMGwowS4dThUimfR3sZ6OCIWclw6UmreC1s/edit?resourcekey#gid=1104640664",
+    'ctene': "https://docs.google.com/spreadsheets/d/1ISV8Ak_tdU5UXiaanTUXAH3kJP8l9aH4J4Cm-ZZFYL0/edit?usp=drive_link",
+    'bm': 'https://docs.google.com/spreadsheets/d/1VW3hSomZOvQSDGuYwgIes5ZB4_XvMmQhqa_KU16jmrA/edit?usp=sharing'
 }
 
 #todo
 google_forms_urls = {
-    'hluwill': "https://forms.gle/DS2qJ1fCy4BfERee9"
+    'hluwill': "https://forms.gle/DS2qJ1fCy4BfERee9",
+    'ctene': "https://forms.gle/VPFdtXuTZUpS1M178",
+    "bm": "https://forms.gle/9h5vwX2WUWx98MJAA"
 }
 
 def access_google_sheet(google_sheet_url: str, sheet_num: int = 0) -> pd.DataFrame:
