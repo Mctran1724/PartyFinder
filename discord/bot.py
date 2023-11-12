@@ -1,6 +1,7 @@
 import os
 import discord
 from discord.ext import commands
+
 import responses
 
 supported_bosses = ['hluwill', 'ctene', 'bm']
@@ -32,19 +33,22 @@ def run_discord_bot():
     @discord.app_commands.choices(boss=boss_choices)
     async def matchmake(interaction: discord.Interaction, name: str, boss: discord.app_commands.Choice[str]):
         
-        print("calling matchmake function")
-
-        content = f"Attempting matchmaking {name} for {boss.value} party."
+        name_str = name.lower()
+        boss_str = boss.value.lower()
+        response = responses.matchmaking(name_str, boss_str)
+        content = f"Attempting matchmaking {name.lower()} for {boss.value} party. \n {response}"
         await interaction.response.send_message(content=content, ephemeral=True)
 
     update_desc = """
                 Request update to BA
             """
     @client.tree.command(name='update', description=update_desc)
-    async def update(interaction: discord.Interaction):
-        print("calling update function")
-        content = "Updating"
-        await interaction.response.send_message(content=content)
+    @discord.app_commands.choices(boss=boss_choices)
+    async def update(interaction: discord.Interaction, name: str, boss: discord.app_commands.Choice[str]):
+        name_str = name.lower()
+        boss_str = boss.value.lower()
+        response = responses.update(name_str, boss_str)
+        await interaction.response.send_message(content=response)
 
     client.run(TOKEN)
    

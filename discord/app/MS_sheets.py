@@ -10,6 +10,11 @@ google_sheets_urls = {
     'hluwill': "https://docs.google.com/spreadsheets/d/1EhA3MwucYMGwowS4dThUimfR3sZ6OCIWclw6UmreC1s/edit?resourcekey#gid=1104640664"
 }
 
+#todo
+google_forms_urls = {
+    'hluwill': "https://forms.gle/DS2qJ1fCy4BfERee9"
+}
+
 def access_google_sheet(google_sheet_url: str, sheet_num: int = 0) -> pd.DataFrame:
     scope = [
         'https://www.googleapis.com/auth/spreadsheets',
@@ -46,7 +51,7 @@ def update_bossing_sheet(google_sheet_url: str, df: pd.DataFrame, sheet_num: int
     return
 
 
-def update_entry(google_sheet_url: str, df: pd.DataFrame, sheet_num: int = 0) -> pd.DataFrame:
+def update_entry(google_sheet_url: str, sheet_num: int = 0, before_and_after: bool = False) -> pd.DataFrame:
     scope = [
         'https://www.googleapis.com/auth/spreadsheets',
         'https://www.googleapis.com/auth/drive'
@@ -67,8 +72,10 @@ def update_entry(google_sheet_url: str, df: pd.DataFrame, sheet_num: int = 0) ->
     result = df.loc[df.groupby('Character Name')['Timestamp'].idxmin()]
     
     gspread_dataframe.set_with_dataframe(worksheet, result)
-
-    return result
+    if before_and_after:
+        return df, result
+    else:  
+        return result
 
 
 
