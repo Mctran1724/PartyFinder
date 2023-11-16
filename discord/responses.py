@@ -45,7 +45,8 @@ def matchmaking(character_name: str, desired_boss: str) -> str:
     #If they are not in a party after matchmaking all elligible players, tell them they need to either become stronger or wait for more people
 
     no_pt_response = f"""
-        No available parties at the moment. Please wait for new applicants and/or increase your character strength to increase the likelihood of finding a party.
+        No available parties at the moment or character not found. Please wait for new applicants and/or increase your character strength to increase the likelihood of finding a party. 
+        Enter or update your character stats at {entry_form_url}.
     """
     return no_pt_response
 

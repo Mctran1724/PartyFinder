@@ -32,12 +32,17 @@ def run_discord_bot():
     @client.tree.command(name='matchmake', description=matchmaking_desc)
     @discord.app_commands.choices(boss=boss_choices)
     async def matchmake(interaction: discord.Interaction, name: str, boss: discord.app_commands.Choice[str]):
-        
+        #await interaction.response.defer()
         name_str = name.lower()
         boss_str = boss.value.lower()
+        initial_content = f"Attempting matchmaking {name.lower()} for {boss.value} party."
+
+        #inital response because discord requires response within 3s
+        await interaction.response.send_message(initial_content)
+        
+        #followup after performing the slow API calls.
         response = responses.matchmaking(name_str, boss_str)
-        content = f"Attempting matchmaking {name.lower()} for {boss.value} party. \n {response}"
-        await interaction.response.send_message(content=content, ephemeral=True)
+        await interaction.followup.send(content=response)
 
     update_desc = """
                 Request update to BA
@@ -45,10 +50,15 @@ def run_discord_bot():
     @client.tree.command(name='update', description=update_desc)
     @discord.app_commands.choices(boss=boss_choices)
     async def update(interaction: discord.Interaction, name: str, boss: discord.app_commands.Choice[str]):
+        #await interaction.response.defer()
         name_str = name.lower()
         boss_str = boss.value.lower()
+
+        content = f"Updating {boss_str} candidates spreadsheet values for {name_str}"
+        await interaction.response.send_message(content=content)
+
         response = responses.update(name_str, boss_str)
-        await interaction.response.send_message(content=response)
+        await interaction.followup.send(content=response)
 
     client.run(TOKEN)
    

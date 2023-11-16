@@ -25,8 +25,9 @@ def match_parties(boss: str, test=False) -> dict:
     #only for hluwill adjust the levels for the BA. TBD on others
     if boss=='hluwill':
         adjusted = MS.adjust_ba(df, 250)
-    else:
+    else: #for bosses that don't have any BA adjustment
         adjusted = df.copy()
+        adjusted['adjusted_BA'] = adjusted['BA']
 
     supports, dps = MS.filter_players(adjusted, minimum_average_BA)
     result = MS.match_players(supports, dps, minimum_average_BA, all_dps_BA)
@@ -45,12 +46,13 @@ def match_parties(boss: str, test=False) -> dict:
     except Exception as e:
         print(e)
     finally:
-        print(df)        
-    updated_table = df.drop(['level_diff', 'fd_multiplier', 'adjusted_BA'], axis=1)
+        print(df)      
+    original_columns = df.columns  
+    updated_table = df[original_columns]
     update_bossing_sheet(url, updated_table)
 
     return new_parties
 
 
 if __name__=='__main__':
-    print(match_parties('hluwill'))
+    print(match_parties('ctene'))
