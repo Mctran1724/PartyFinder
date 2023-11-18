@@ -38,7 +38,7 @@ def matchmaking(character_name: str, desired_boss: str) -> str:
         if character_party != "":
             response_message = f"""
             You have been successfully matchmade to the party: {desired_boss}{character_party}.
-            The party will consist of {pt_list}.
+            The party will consist of {pt_list}. Please contact the other members to coordinate a meeting time with https://www.when2meet.com/.
             """
             return response_message
 
